@@ -13,7 +13,7 @@
 
 	<groupId>com.lazokin</groupId>
 	<artifactId>pet-clinic</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 	<name>Spring_PetClinic</name>
 	<description>Pet Clinic application from the Udemy course Spring Framework 5</description>
 
@@ -28,19 +28,25 @@
 		<java.version>1.8</java.version>
 	</properties>
 
-	<dependencies>
-
-	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
-
+	<scm>
+		<developerConnection>scm:git:git@github.com:lazokin/Spring_PetClinic.git</developerConnection>
+		<tag>pet-clinic-0.0.1</tag>
+	</scm>
 
 </project>
