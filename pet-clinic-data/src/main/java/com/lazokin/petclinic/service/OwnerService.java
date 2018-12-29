@@ -1,17 +1,9 @@
 package com.lazokin.petclinic.service;
 
-import java.util.Set;
-
 import com.lazokin.petclinic.model.Owner;
 
-public interface OwnerService {
-
-	Owner findById(long id);
+public interface OwnerService extends CrudService<Owner, Long>{
 	
-	Owner findByLastName(long lastName);
-	
-	Owner save(Owner owner);
-	
-	Set<Owner> findAll();
+	Owner findByLastName(Long lastName);
 	
 }
