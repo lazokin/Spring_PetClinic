@@ -7,23 +7,20 @@ import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.model.Vet;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.VetService;
-import com.lazokin.petclinic.service.map.OwnerMapService;
-import com.lazokin.petclinic.service.map.VetMapService;
 
 @Component
 public class DataLoader implements CommandLineRunner {
 
 	private final OwnerService ownerService;
-	
 	private final VetService vetService;
 	
-	public DataLoader() {
-		ownerService = new OwnerMapService();
-		vetService = new VetMapService();
+	public DataLoader(OwnerService ownerService, VetService vetService) {
+		this.ownerService = ownerService;
+		this.vetService = vetService;
 	}
 	
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		
 		Owner owner1 = new Owner();
 		owner1.setId(1L);
