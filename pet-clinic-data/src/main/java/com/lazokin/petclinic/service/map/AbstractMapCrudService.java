@@ -1,15 +1,13 @@
 package com.lazokin.petclinic.service.map;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
+import com.lazokin.petclinic.model.BaseEntity;
 import com.lazokin.petclinic.service.CrudService;
 
-public abstract class AbstractMapCrudService<T, ID> implements CrudService<T, ID> {
+public abstract class AbstractMapCrudService<T extends BaseEntity, ID extends Long> implements CrudService<T, ID> {
 	
-	protected Map<ID, T> map = new HashMap<>();
+	protected Map<Long, T> map = new HashMap<>();
 	
 	@Override
 	public Set<T> findAll() {
@@ -30,10 +28,28 @@ public abstract class AbstractMapCrudService<T, ID> implements CrudService<T, ID
 	public void delete(T object) {
 		map.entrySet().removeIf(entry -> entry.getValue().equals(object));
 	}
-	
-	protected T save(ID id, T object) {
-		map.put(id, object);
+
+	@Override
+	public T save(T object) {
+		if (object != null) {
+			if (object.getId() == null) {
+				object.setId(getNextId());
+			}
+		} else {
+			throw new RuntimeException("Object cannot be null");
+		}
+		map.put(object.getId(), object);
 		return object;
+	}
+
+	private Long getNextId() {
+		Long nextId = null;
+		try {
+			nextId = Collections.max(map.keySet()) + 1;
+		} catch (NoSuchElementException e) {
+			nextId = 1L;
+		}
+		return nextId;
 	}
 
 }
