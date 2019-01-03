@@ -1,9 +1,12 @@
 package com.lazokin.petclinic.bootstrap;
 
+import java.time.LocalDate;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 import com.lazokin.petclinic.model.Owner;
+import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.model.PetType;
 import com.lazokin.petclinic.model.Vet;
 import com.lazokin.petclinic.service.OwnerService;
@@ -26,32 +29,52 @@ public class DataLoader implements CommandLineRunner {
 	@Override
 	public void run(String... args) {
 		
-		PetType dog = new PetType();
-		dog.setName("Dog");
-		PetType savedDog = petTypeService.save(dog);
+		PetType dogType = new PetType();
+		dogType.setName("Dog");
+		petTypeService.save(dogType);
 		
-		PetType cat = new PetType();
-		dog.setName("Cat");
-		PetType savedCat = petTypeService.save(cat);
+		PetType catType = new PetType();
+		catType.setName("Cat");
+		petTypeService.save(catType);
 		
-		Owner owner1 = new Owner();
-		owner1.setFirstName("Nikolce");
-		owner1.setLastName("Ambukovski");
-		ownerService.save(owner1);
+		Pet dog = new Pet();
+		dog.setPetType(dogType);
+		dog.setName("Buster");
+		dog.setBirthDate(LocalDate.now());
 		
-		Owner owner2 = new Owner();
-		owner2.setFirstName("Mende");
-		owner2.setLastName("Cvetkovski");
-		ownerService.save(owner2);
+		Pet cat = new Pet();
+		cat.setPetType(catType);
+		cat.setName("Pus");
+		cat.setBirthDate(LocalDate.now());
+		
+		Owner dogOwner = new Owner();
+		dogOwner.setFirstName("John");
+		dogOwner.setLastName("Doe");
+		dogOwner.setAddress("1 Main St");
+		dogOwner.setCity("Somewhere");
+		dogOwner.setTelephone("123456789");
+		dogOwner.getPets().add(dog);
+		dog.setOwner(dogOwner);
+		ownerService.save(dogOwner);
+		
+		Owner catOwner = new Owner();
+		catOwner.setFirstName("Jane");
+		catOwner.setLastName("Doe");
+		catOwner.setAddress("1 Main St");
+		catOwner.setCity("Somewhere");
+		catOwner.setTelephone("123456789");
+		catOwner.getPets().add(cat);
+		cat.setOwner(catOwner);
+		ownerService.save(catOwner);
 		
 		Vet vet1 = new Vet();
-		vet1.setFirstName("Pece");
-		vet1.setLastName("Kuzmanovski");
+		vet1.setFirstName("James");
+		vet1.setLastName("Anderson");
 		vetService.save(vet1);
 		
 		Vet vet2 = new Vet();
-		vet2.setFirstName("Goce");
-		vet2.setLastName("Petrovski");
+		vet2.setFirstName("Mary");
+		vet2.setLastName("Sue");
 		vetService.save(vet2);
 		
 	}
