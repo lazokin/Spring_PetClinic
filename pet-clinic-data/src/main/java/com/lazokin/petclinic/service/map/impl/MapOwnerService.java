@@ -6,9 +6,11 @@ import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetService;
 import com.lazokin.petclinic.service.map.MapService;
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile({"default", "map"})
 public class MapOwnerService extends MapService<Owner, Long> implements OwnerService {
 	
 	private final PetService petService;
