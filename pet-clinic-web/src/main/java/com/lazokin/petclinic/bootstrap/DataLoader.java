@@ -10,10 +10,12 @@ import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.model.PetType;
 import com.lazokin.petclinic.model.Specialty;
 import com.lazokin.petclinic.model.Vet;
+import com.lazokin.petclinic.model.Visit;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetTypeService;
 import com.lazokin.petclinic.service.SpecialtyService;
 import com.lazokin.petclinic.service.VetService;
+import com.lazokin.petclinic.service.VisitService;
 
 @Component
 public class DataLoader implements CommandLineRunner {
@@ -22,12 +24,15 @@ public class DataLoader implements CommandLineRunner {
 	private final VetService vetService;
 	private final PetTypeService petTypeService;
 	private final SpecialtyService specialtyService;
+	private final VisitService visitService;
 	
-	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService) {
+	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService,
+			SpecialtyService specialtyService, VisitService visitService) {
 		this.ownerService = ownerService;
 		this.vetService = vetService;
 		this.petTypeService = petTypeService;
 		this.specialtyService = specialtyService;
+		this.visitService = visitService;
 	}
 	
 	@Override
@@ -105,6 +110,12 @@ public class DataLoader implements CommandLineRunner {
 		vet2.getSpecialities().add(savedSurgerySpeciality);
 		vet2.getSpecialities().add(savedDentistrySpeciality);
 		vetService.save(vet2);
+		
+		Visit catVisit = new Visit();
+		catVisit.setPet(cat);
+		catVisit.setDate(LocalDate.now());
+		catVisit.setDescription("Seazy kitty");
+		visitService.save(catVisit);
 	}
 
 }
