@@ -1,6 +1,7 @@
 package com.lazokin.petclinic.service.map;
 
 import com.lazokin.petclinic.model.Pet;
+import com.lazokin.petclinic.model.PetType;
 import com.lazokin.petclinic.service.PetService;
 import com.lazokin.petclinic.service.PetTypeService;
 
@@ -17,11 +18,13 @@ public class PetMapService extends AbstractMapService<Pet, Long> implements PetS
 
 	@Override
 	public Pet save(Pet pet) {
-		super.save(pet);
 		if (pet.getPetType() != null) {
-			this.petTypeService.save(pet.getPetType());
+			if (pet.getPetType().getId() == null) {
+				PetType savedPetType = this.petTypeService.save(pet.getPetType());
+				pet.setPetType(savedPetType);
+			}
 		}
-		return pet;
+		return super.save(pet);
 	}
 	
 }

@@ -1,6 +1,6 @@
 package com.lazokin.petclinic.model;
 
-public class Speciality extends BaseEntity {
+public class Specialty extends BaseEntity {
 	
 	private String name;
 	

@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.model.PetType;
+import com.lazokin.petclinic.model.Specialty;
 import com.lazokin.petclinic.model.Vet;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetTypeService;
+import com.lazokin.petclinic.service.SpecialtyService;
 import com.lazokin.petclinic.service.VetService;
 
 @Component
@@ -19,37 +21,48 @@ public class DataLoader implements CommandLineRunner {
 	private final OwnerService ownerService;
 	private final VetService vetService;
 	private final PetTypeService petTypeService;
+	private final SpecialtyService specialtyService;
 	
-	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService) {
+	public DataLoader(OwnerService ownerService, VetService vetService, PetTypeService petTypeService, SpecialtyService specialtyService) {
 		this.ownerService = ownerService;
 		this.vetService = vetService;
 		this.petTypeService = petTypeService;
+		this.specialtyService = specialtyService;
 	}
 	
 	@Override
 	public void run(String... args) {
-		
+		if (databaseEmpty()) {
+			loadData();
+		}	
+	}
+
+	private boolean databaseEmpty() {
+		return petTypeService.findAll().isEmpty();
+	}
+
+	private void loadData() {
 		PetType dogType = new PetType();
 		dogType.setName("Dog");
-		petTypeService.save(dogType);
+		PetType savedDogType = petTypeService.save(dogType);
 		
 		PetType catType = new PetType();
 		catType.setName("Cat");
-		petTypeService.save(catType);
+		PetType savedCatType = petTypeService.save(catType);
 		
 		Pet dog = new Pet();
-		dog.setPetType(dogType);
+		dog.setPetType(savedDogType);
 		dog.setName("Buster");
 		dog.setBirthDate(LocalDate.now());
 		
 		Pet cat = new Pet();
-		cat.setPetType(catType);
+		cat.setPetType(savedCatType);
 		cat.setName("Pus");
 		cat.setBirthDate(LocalDate.now());
 		
 		Owner dogOwner = new Owner();
 		dogOwner.setFirstName("John");
-		dogOwner.setLastName("Doe");
+		dogOwner.setLastName("Snow");
 		dogOwner.setAddress("1 Main St");
 		dogOwner.setCity("Somewhere");
 		dogOwner.setTelephone("123456789");
@@ -58,8 +71,8 @@ public class DataLoader implements CommandLineRunner {
 		ownerService.save(dogOwner);
 		
 		Owner catOwner = new Owner();
-		catOwner.setFirstName("Jane");
-		catOwner.setLastName("Doe");
+		catOwner.setFirstName("Tyrion");
+		catOwner.setLastName("Lannister");
 		catOwner.setAddress("1 Main St");
 		catOwner.setCity("Somewhere");
 		catOwner.setTelephone("123456789");
@@ -67,16 +80,31 @@ public class DataLoader implements CommandLineRunner {
 		cat.setOwner(catOwner);
 		ownerService.save(catOwner);
 		
+		Specialty radiologySpecialty = new Specialty();
+		radiologySpecialty.setName("Radiology");
+		Specialty savedRadiologySpeciality = specialtyService.save(radiologySpecialty);
+		
+		Specialty surgerySpecialty = new Specialty();
+		surgerySpecialty.setName("Surgery");
+		Specialty savedSurgerySpeciality = specialtyService.save(surgerySpecialty);
+		
+		Specialty dentistrySpecialty = new Specialty();
+		dentistrySpecialty.setName("Dentistry");
+		Specialty savedDentistrySpeciality = specialtyService.save(dentistrySpecialty);
+		
 		Vet vet1 = new Vet();
-		vet1.setFirstName("James");
-		vet1.setLastName("Anderson");
+		vet1.setFirstName("Robert");
+		vet1.setLastName("Baratheon");
+		vet1.getSpecialities().add(savedRadiologySpeciality);
+		vet1.getSpecialities().add(savedDentistrySpeciality);
 		vetService.save(vet1);
 		
 		Vet vet2 = new Vet();
-		vet2.setFirstName("Mary");
-		vet2.setLastName("Sue");
+		vet2.setFirstName("Ned");
+		vet2.setLastName("Stark");
+		vet2.getSpecialities().add(savedSurgerySpeciality);
+		vet2.getSpecialities().add(savedDentistrySpeciality);
 		vetService.save(vet2);
-		
 	}
 
 }

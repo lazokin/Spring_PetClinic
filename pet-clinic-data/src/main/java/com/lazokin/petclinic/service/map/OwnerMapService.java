@@ -1,6 +1,7 @@
 package com.lazokin.petclinic.service.map;
 
 import com.lazokin.petclinic.model.Owner;
+import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetService;
 
@@ -22,10 +23,14 @@ public class OwnerMapService extends AbstractMapService<Owner, Long> implements 
 
 	@Override
 	public Owner save(Owner owner) {
-		super.save(owner);
 		if (owner.getPets() != null) {
-			owner.getPets().forEach(pet -> this.petService.save(pet));
+			owner.getPets().forEach(pet -> {
+				if (pet.getId() == null) {
+					Pet savedPet = this.petService.save(pet);
+					pet.setId(savedPet.getId());
+				}
+			});
 		}
-		return owner;
+		return super.save(owner);
 	}
 }
