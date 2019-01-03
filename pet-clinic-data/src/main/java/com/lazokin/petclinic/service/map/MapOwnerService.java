@@ -8,11 +8,11 @@ import com.lazokin.petclinic.service.PetService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class OwnerMapService extends AbstractMapService<Owner, Long> implements OwnerService {
+public class MapOwnerService extends MapService<Owner, Long> implements OwnerService {
 	
 	private final PetService petService;
 	
-	public OwnerMapService(PetService petService) {
+	public MapOwnerService(PetService petService) {
 		this.petService = petService;
 	}
 

@@ -10,7 +10,7 @@ import java.util.Set;
 import com.lazokin.petclinic.model.BaseEntity;
 import com.lazokin.petclinic.service.CrudService;
 
-public abstract class AbstractMapService<T extends BaseEntity, ID> implements CrudService<T, ID> {
+public abstract class MapService<T extends BaseEntity, ID> implements CrudService<T, ID> {
 	
 	protected Map<Long, T> map = new HashMap<>();
 	

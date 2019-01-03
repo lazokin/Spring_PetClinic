@@ -4,6 +4,8 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.lazokin.petclinic.model.Owner;
 
-public interface OwnerRespository extends CrudRepository<Owner, Long> {
+public interface OwnerRepository extends CrudRepository<Owner, Long> {
+
+	Owner findByLastName(Long lastName);
 
 }

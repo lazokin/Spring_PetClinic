@@ -6,6 +6,6 @@ import com.lazokin.petclinic.service.PetTypeService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PetTypeMapService extends AbstractMapService<PetType, Long> implements PetTypeService {
+public class MapPetTypeService extends MapService<PetType, Long> implements PetTypeService {
 
 }

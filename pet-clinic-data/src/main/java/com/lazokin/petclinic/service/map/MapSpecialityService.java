@@ -5,6 +5,6 @@ import com.lazokin.petclinic.service.SpecialtyService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class SpecialityMapService extends AbstractMapService<Specialty, Long> implements SpecialtyService {
+public class MapSpecialityService extends MapService<Specialty, Long> implements SpecialtyService {
 
 }

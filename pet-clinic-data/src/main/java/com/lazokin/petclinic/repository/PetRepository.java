@@ -2,8 +2,8 @@ package com.lazokin.petclinic.repository;
 
 import org.springframework.data.repository.CrudRepository;
 
-import com.lazokin.petclinic.model.Vet;
+import com.lazokin.petclinic.model.Pet;
 
-public interface VetRespository extends CrudRepository<Vet, Long> {
+public interface PetRepository extends CrudRepository<Pet, Long> {
 
 }
