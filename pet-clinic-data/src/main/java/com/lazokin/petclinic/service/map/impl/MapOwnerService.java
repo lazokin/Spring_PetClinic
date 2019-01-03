@@ -1,9 +1,10 @@
-package com.lazokin.petclinic.service.map;
+package com.lazokin.petclinic.service.map.impl;
 
 import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetService;
+import com.lazokin.petclinic.service.map.MapService;
 
 import org.springframework.stereotype.Service;
 

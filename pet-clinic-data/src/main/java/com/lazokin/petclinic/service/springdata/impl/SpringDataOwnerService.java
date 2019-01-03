@@ -1,4 +1,4 @@
-package com.lazokin.petclinic.service.springdata;
+package com.lazokin.petclinic.service.springdata.impl;
 
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.repository.OwnerRepository;
 import com.lazokin.petclinic.service.OwnerService;
+import com.lazokin.petclinic.service.springdata.SpringDataService;
 
 @Service
 @Profile("springdata")
