@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.lazokin</groupId>
 		<artifactId>pet-clinic</artifactId>
-		<version>0.0.5-SNAPSHOT</version>
+		<version>0.0.5</version>
 	</parent>
 
 	<artifactId>pet-clinic-web</artifactId>
@@ -28,7 +28,7 @@
 		<dependency>
 			<groupId>com.lazokin</groupId>
 			<artifactId>pet-clinic-data</artifactId>
-			<version>0.0.5-SNAPSHOT</version>
+			<version>0.0.5</version>
 		</dependency>
 
         <!-- spring boot -->
