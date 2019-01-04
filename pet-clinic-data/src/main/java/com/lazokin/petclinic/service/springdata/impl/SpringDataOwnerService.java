@@ -17,7 +17,7 @@ public class SpringDataOwnerService extends SpringDataService<Owner, Long> imple
 	}
 
 	@Override
-	public Owner findByLastName(Long lastName) {
+	public Owner findByLastName(String lastName) {
 		return ((OwnerRepository) this.repository).findByLastName(lastName);
 	}
 

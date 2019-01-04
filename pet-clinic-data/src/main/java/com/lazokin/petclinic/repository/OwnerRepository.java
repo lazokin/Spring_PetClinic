@@ -6,6 +6,6 @@ import com.lazokin.petclinic.model.Owner;
 
 public interface OwnerRepository extends CrudRepository<Owner, Long> {
 
-	Owner findByLastName(Long lastName);
+	Owner findByLastName(String lastName);
 
 }
