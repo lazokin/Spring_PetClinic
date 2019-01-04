@@ -1,10 +1,7 @@
 package com.lazokin.petclinic.service.map.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
-
-import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,20 +24,17 @@ class MapOwnerServiceTest {
 	
 	@Test
 	void finaAll() {
-		Set<Owner> owners = service.findAll();
-		assertEquals(1, owners.size());
+		assertEquals(1, service.findAll().size());
 	}
 	
 	@Test
 	void findById() {
-		Owner owner = service.findById(1L);
-		assertEquals(ID_1, owner.getId());
+		assertEquals(ID_1, service.findById(ID_1).getId());
 	}
 	
 	@Test
 	void saveWithId() {
-		Owner owner = service.save(Owner.builder().id(ID_2).build());
-		assertEquals(ID_2, owner.getId());
+		assertEquals(ID_2, service.save(Owner.builder().id(ID_2).build()).getId());
 	}
 	
 	@Test
@@ -63,15 +57,12 @@ class MapOwnerServiceTest {
 	
 	@Test
 	void findByLastNamePass() {
-		Owner owner = service.findByLastName(LAST_NAME);
-		assertNotNull(owner);
-		assertEquals(LAST_NAME, owner.getLastName());
+		assertEquals(LAST_NAME, service.findByLastName(LAST_NAME).getLastName());
 	}
 	
 	@Test
 	void findByLastNameFail() {
-		Owner owner = service.findByLastName("foobar");
-		assertNull(owner);
+		assertNull(service.findByLastName("foobar"));
 	}
 
 }
