@@ -1,5 +1,6 @@
 package com.lazokin.petclinic.controller;
 
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
@@ -46,6 +47,15 @@ class OwnerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("owners/index"))
 			.andExpect(model().attributeExists("owners"));
+	}
+	
+	@Test
+	void showOwner() throws Exception {
+		when(service.findById(anyLong())).thenReturn(Owner.builder().id(1L).build());
+		mockMvc.perform(get("/owners/1"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("owners/details"))
+			.andExpect(model().attributeExists("owner"));
 	}
 
 }
