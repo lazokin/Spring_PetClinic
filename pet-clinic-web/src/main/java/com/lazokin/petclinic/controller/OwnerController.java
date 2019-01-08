@@ -5,6 +5,8 @@ import com.lazokin.petclinic.service.OwnerService;
 
 import java.util.Set;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,6 +14,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -37,7 +40,7 @@ public class OwnerController {
 	}
 	
 	@GetMapping("/{id}")
-	public ModelAndView showOwner(@PathVariable("id") Long id ) {
+	public ModelAndView showOwner(@PathVariable Long id ) {
 		ModelAndView mav = new ModelAndView("owners/details");
 		mav.addObject(ownerService.findById(id));
 		return mav;
@@ -58,6 +61,39 @@ public class OwnerController {
 		} else {
 			model.addAttribute("selections", owners);
 			return "/owners/list";
+		}
+	}
+	
+	@GetMapping("/new")
+	public String returnEmptyOwnerForm(Model model) {
+		model.addAttribute("owner", Owner.builder().build());
+		return "owners/form";
+	}
+	
+	@PostMapping("/new")
+	public String postNewOwnerForm(@Valid Owner owner, BindingResult result) {
+		if (result.hasErrors()) {
+			return "Invalid Owner";
+		} else {
+			Owner savedOwner = this.ownerService.save(owner);
+			return "redirect:/owners/" + savedOwner.getId();
+		}
+	}
+	
+	@GetMapping("/{id}/edit")
+	public String returnExistingOwnerForm(@PathVariable Long id, Model model) {
+		model.addAttribute("owner", this.ownerService.findById(id));
+		return "owners/form";
+	}
+	
+	@PostMapping("/{id}/edit")
+	public String postnExistingOwnerForm(@PathVariable Long id, @Valid Owner owner, BindingResult result) {
+		if (result.hasErrors()) {
+			return "Invalid Owner";
+		} else {
+			owner.setId(id);
+			this.ownerService.save(owner);
+			return "redirect:/owners/" + id;
 		}
 	}
 
