@@ -21,8 +21,8 @@ public class MapVetService extends MapService<Vet, Long> implements VetService {
 
 	@Override
 	public Vet save(Vet vet) {
-		if (vet.getSpecialities() != null) {
-			vet.getSpecialities().forEach(specialty -> {
+		if (vet.getSpecialties() != null) {
+			vet.getSpecialties().forEach(specialty -> {
 				if (specialty.getId() == null) {
 					Specialty savedSpecialty = this.specialtyService.save(specialty);
 					specialty.setId(savedSpecialty.getId());

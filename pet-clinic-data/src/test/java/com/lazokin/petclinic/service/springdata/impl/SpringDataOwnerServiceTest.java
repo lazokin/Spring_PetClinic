@@ -93,7 +93,7 @@ class SpringDataOwnerServiceTest {
 	
 	@Test
 	void findAllByLastNameMany() {
-		when(repository.findAllByLastNameLike((eq(LAST_NAME_1)))).thenReturn(Set.of(
+		when(repository.findAllByLastNameLike((eq("%"+LAST_NAME_1+"%")))).thenReturn(Set.of(
 			Owner.builder().lastName(LAST_NAME_1).build(),
 			Owner.builder().lastName(LAST_NAME_1).build()
 		));
@@ -103,7 +103,7 @@ class SpringDataOwnerServiceTest {
 	
 	@Test
 	void findAllByLastNameOne() {
-		when(repository.findAllByLastNameLike((eq(LAST_NAME_1)))).thenReturn(Set.of(
+		when(repository.findAllByLastNameLike((eq("%"+LAST_NAME_1+"%")))).thenReturn(Set.of(
 				Owner.builder().lastName(LAST_NAME_1).build()
 			));
 		assertEquals(1, service.findAllByLastNameLike(LAST_NAME_1).size());

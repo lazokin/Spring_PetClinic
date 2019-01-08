@@ -27,13 +27,21 @@ public class Vet extends Person {
 	@Builder
 	public Vet(Long id, String firstName, String lastName, Set<Specialty> specialities) {
 		super(id, firstName, lastName);
-		this.specialities = specialities;
+		this.specialties = specialities;
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "vet_specialties",
 		joinColumns = @JoinColumn(name = "vet_id"),
 		inverseJoinColumns = @JoinColumn(name = "specialty_id"))
-	private Set<Specialty> specialities = new HashSet<>();;
+	private Set<Specialty> specialties;
+	
+	
+	public Set<Specialty> getSpecialties() {
+		if (specialties == null) {
+			specialties = new HashSet<>();
+		}
+		return specialties;
+	}
 
 }
