@@ -1,13 +1,16 @@
 package com.lazokin.petclinic.service.map.impl;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Service;
+
 import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.model.Pet;
 import com.lazokin.petclinic.service.OwnerService;
 import com.lazokin.petclinic.service.PetService;
 import com.lazokin.petclinic.service.map.MapService;
-
-import org.springframework.context.annotation.Profile;
-import org.springframework.stereotype.Service;
 
 @Service
 @Profile({"default", "map"})
@@ -26,6 +29,13 @@ public class MapOwnerService extends MapService<Owner, Long> implements OwnerSer
 				.findFirst()
 				.orElse(null);
 	}
+	
+	@Override
+	public Set<Owner> findAllByLastNameLike(String lastName) {
+		return this.map.values().stream()
+				.filter(owner -> owner.getLastName().equalsIgnoreCase(lastName))
+				.collect(Collectors.toSet());
+	}
 
 	@Override
 	public Owner save(Owner owner) {
@@ -39,4 +49,6 @@ public class MapOwnerService extends MapService<Owner, Long> implements OwnerSer
 		}
 		return super.save(owner);
 	}
+
+	
 }

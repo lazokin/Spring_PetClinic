@@ -2,6 +2,7 @@ package com.lazokin.petclinic.service.springdata.impl;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.AdditionalMatchers.not;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
@@ -32,7 +33,8 @@ class SpringDataOwnerServiceTest {
 	
 	private final Long ID_1 = 1L;
 	private final Long ID_2 = 2L;
-	private final String LAST_NAME = "Stark";
+	private final String LAST_NAME_1 = "Stark";
+	private final String LAST_NAME_2 = "Baratheon";
 	
 	@BeforeEach
 	void behoreEach() {
@@ -79,14 +81,37 @@ class SpringDataOwnerServiceTest {
 	
 	@Test
 	void findByLastNamePass() {
-		when(repository.findByLastName(eq(LAST_NAME))).thenReturn(Owner.builder().lastName(LAST_NAME).build());
-		assertEquals(LAST_NAME, service.findByLastName(LAST_NAME).getLastName());
+		when(repository.findByLastName(eq(LAST_NAME_1))).thenReturn(Owner.builder().lastName(LAST_NAME_1).build());
+		assertEquals(LAST_NAME_1, service.findByLastName(LAST_NAME_1).getLastName());
 	}
 	
 	@Test
 	void findByLastNameFail() {
-		when(repository.findByLastName(not(eq(LAST_NAME)))).thenReturn(null);
-		assertNull(service.findByLastName("foobar"));
+		when(repository.findByLastName(not(eq(LAST_NAME_1)))).thenReturn(null);
+		assertNull(service.findByLastName(LAST_NAME_2));
+	}
+	
+	@Test
+	void findAllByLastNameMany() {
+		when(repository.findAllByLastNameLike((eq(LAST_NAME_1)))).thenReturn(Set.of(
+			Owner.builder().lastName(LAST_NAME_1).build(),
+			Owner.builder().lastName(LAST_NAME_1).build()
+		));
+		service.save(Owner.builder().id(ID_2).lastName(LAST_NAME_1).build());
+		assertEquals(2, service.findAllByLastNameLike(LAST_NAME_1).size());
+	}
+	
+	@Test
+	void findAllByLastNameOne() {
+		when(repository.findAllByLastNameLike((eq(LAST_NAME_1)))).thenReturn(Set.of(
+				Owner.builder().lastName(LAST_NAME_1).build()
+			));
+		assertEquals(1, service.findAllByLastNameLike(LAST_NAME_1).size());
+	}
+	
+	@Test
+	void findAllByLastNameNone() {
+		assertTrue(service.findAllByLastNameLike(LAST_NAME_2).isEmpty());
 	}
 
 }

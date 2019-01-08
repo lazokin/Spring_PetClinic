@@ -1,8 +1,13 @@
 package com.lazokin.petclinic.controller;
 
+import com.lazokin.petclinic.model.Owner;
 import com.lazokin.petclinic.service.OwnerService;
+
+import java.util.Set;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -24,16 +29,11 @@ public class OwnerController {
 	public void initBinder(WebDataBinder binder) {
 		binder.setDisallowedFields("id");
 	}
-
-	@RequestMapping({"", "/", "/index", "index.html"})
-	public String index(Model model) {
-		model.addAttribute("owners", ownerService.findAll());
-		return "owners/index";
-	}
 	
 	@RequestMapping("/find")
 	public String find(Model model) {
-		return "todo";
+		model.addAttribute("owner", Owner.builder().build());
+		return "owners/find";
 	}
 	
 	@GetMapping("/{id}")
@@ -41,6 +41,24 @@ public class OwnerController {
 		ModelAndView mav = new ModelAndView("owners/details");
 		mav.addObject(ownerService.findById(id));
 		return mav;
+	}
+	
+	@GetMapping()
+	public String processFindForm(Owner owner, BindingResult result, Model model) {
+		if (owner.getLastName() == null) {
+			owner.setLastName("");
+		}
+		Set<Owner> owners = this.ownerService.findAllByLastNameLike(owner.getLastName());
+		if (owners.isEmpty()) {
+			result.rejectValue("lastName", "notFound", "not found");
+			return "owners/find";
+		} else if (owners.size() == 1) {
+			owner = owners.iterator().next();
+			return "redirect:/owners/" + owner.getId();
+		} else {
+			model.addAttribute("selections", owners);
+			return "/owners/list";
+		}
 	}
 
 }

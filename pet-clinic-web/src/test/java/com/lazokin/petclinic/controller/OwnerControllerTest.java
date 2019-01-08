@@ -1,12 +1,15 @@
 package com.lazokin.petclinic.controller;
 
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.util.Collections;
 import java.util.Set;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -30,23 +33,16 @@ class OwnerControllerTest {
 	@InjectMocks
 	OwnerController controller;
 	
+	Owner owner;
 	Set<Owner> owners;
 	
 	MockMvc mockMvc;
 	
 	@BeforeEach
 	void beforeEach() {
+		owner = Owner.builder().id(1L).build();
 		owners = Set.of(Owner.builder().id(1L).build(), Owner.builder().id(2L).build());
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
-	}
-	
-	@Test
-	void listOwners() throws Exception {
-		when(service.findAll()).thenReturn(owners);
-		mockMvc.perform(get("/owners"))
-			.andExpect(status().isOk())
-			.andExpect(view().name("owners/index"))
-			.andExpect(model().attributeExists("owners"));
 	}
 	
 	@Test
@@ -56,6 +52,40 @@ class OwnerControllerTest {
 			.andExpect(status().isOk())
 			.andExpect(view().name("owners/details"))
 			.andExpect(model().attributeExists("owner"));
+	}
+	
+	@Test
+	void findOwners() throws Exception {
+		mockMvc.perform(get("/owners/find"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("owners/find"))
+			.andExpect(model().attributeExists("owner"));
+	}
+	
+	@Test
+	void listMultipleOwners() throws Exception {
+		when(service.findAllByLastNameLike(anyString())).thenReturn(owners);
+		mockMvc.perform(get("/owners"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("/owners/list"))
+			.andExpect(model().attribute("selections", hasSize(2)));
+	}
+	
+	@Test
+	void listSingleOwners() throws Exception {
+		when(service.findAllByLastNameLike(anyString())).thenReturn(Set.of(Owner.builder().id(1L).build()));
+		mockMvc.perform(get("/owners"))
+			.andExpect(status().is3xxRedirection())
+			.andExpect(view().name("redirect:/owners/1"))
+			.andExpect(model().attributeExists("owner"));
+	}
+	
+	@Test
+	void listNoOwners() throws Exception {
+		when(service.findAllByLastNameLike(anyString())).thenReturn(Collections.emptySet());
+		mockMvc.perform(get("/owners"))
+			.andExpect(status().isOk())
+			.andExpect(view().name("owners/find"));
 	}
 
 }

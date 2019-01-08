@@ -1,5 +1,7 @@
 package com.lazokin.petclinic.service.springdata.impl;
 
+import java.util.Set;
+
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ public class SpringDataOwnerService extends SpringDataService<Owner, Long> imple
 	@Override
 	public Owner findByLastName(String lastName) {
 		return ((OwnerRepository) this.repository).findByLastName(lastName);
+	}
+
+	@Override
+	public Set<Owner> findAllByLastNameLike(String lastName) {
+		return ((OwnerRepository) this.repository).findAllByLastNameLike(lastName);
 	}
 
 }
