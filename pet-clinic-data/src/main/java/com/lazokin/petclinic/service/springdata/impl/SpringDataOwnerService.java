@@ -25,7 +25,7 @@ public class SpringDataOwnerService extends SpringDataService<Owner, Long> imple
 
 	@Override
 	public Set<Owner> findAllByLastNameLike(String lastName) {
-		return ((OwnerRepository) this.repository).findAllByLastNameLike(lastName);
+		return ((OwnerRepository) this.repository).findAllByLastNameLike("%" + lastName + "%");
 	}
 
 }
