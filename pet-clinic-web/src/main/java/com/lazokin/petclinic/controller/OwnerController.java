@@ -22,10 +22,10 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/owners")
 public class OwnerController {
 
-	private final OwnerService ownerService;
+	private final OwnerService service;
 
 	public OwnerController(OwnerService ownerService) {
-		this.ownerService = ownerService;
+		this.service = ownerService;
 	}
 	
 	@InitBinder
@@ -42,7 +42,7 @@ public class OwnerController {
 	@GetMapping("/{id}")
 	public ModelAndView showOwner(@PathVariable Long id ) {
 		ModelAndView mav = new ModelAndView("owners/details");
-		mav.addObject(ownerService.findById(id));
+		mav.addObject(service.findById(id));
 		return mav;
 	}
 	
@@ -51,7 +51,7 @@ public class OwnerController {
 		if (owner.getLastName() == null) {
 			owner.setLastName("");
 		}
-		Set<Owner> owners = this.ownerService.findAllByLastNameLike(owner.getLastName());
+		Set<Owner> owners = service.findAllByLastNameLike(owner.getLastName());
 		if (owners.isEmpty()) {
 			result.rejectValue("lastName", "notFound", "not found");
 			return "owners/find";
@@ -75,14 +75,14 @@ public class OwnerController {
 		if (result.hasErrors()) {
 			return "Invalid Owner";
 		} else {
-			Owner savedOwner = this.ownerService.save(owner);
+			Owner savedOwner = service.save(owner);
 			return "redirect:/owners/" + savedOwner.getId();
 		}
 	}
 	
 	@GetMapping("/{id}/edit")
 	public String returnExistingOwnerForm(@PathVariable Long id, Model model) {
-		model.addAttribute("owner", this.ownerService.findById(id));
+		model.addAttribute("owner", service.findById(id));
 		return "owners/form";
 	}
 	
@@ -92,7 +92,7 @@ public class OwnerController {
 			return "Invalid Owner";
 		} else {
 			owner.setId(id);
-			this.ownerService.save(owner);
+			service.save(owner);
 			return "redirect:/owners/" + id;
 		}
 	}
