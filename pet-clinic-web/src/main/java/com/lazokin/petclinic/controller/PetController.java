@@ -37,7 +37,7 @@ public class PetController {
 		this.ownerService = ownerService;
 	}
 	
-	@ModelAttribute("types")
+	@ModelAttribute("petTypes")
 	public Collection<PetType> getPetTypes() {
 		return petTypeService.findAll();
 	}
@@ -55,7 +55,7 @@ public class PetController {
 	@GetMapping("/pets/new")
 	public String getNewPetForm(Owner owner, Model model) {
 		Pet pet = Pet.builder().build();
-		owner.getPets().add(pet);
+		owner.addPet(pet);
 		model.addAttribute("pet", pet);
 		return "pets/form";
 	}

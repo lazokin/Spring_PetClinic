@@ -40,7 +40,7 @@ public class Pet extends BaseEntity {
 	private String name;
 
 	@ManyToOne
-	@JoinColumn(name = "type_id")
+	@JoinColumn(name = "petType_id")
 	private PetType petType;
 	
 	@ManyToOne
@@ -54,11 +54,16 @@ public class Pet extends BaseEntity {
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "pet")
 	private Set<Visit> visits;
 	
-	public Set<Visit> getVisists() {
+	public Set<Visit> getVisits() {
 		if (visits == null) {
 			visits = new HashSet<>();
 		}
 		return visits;
 	}
+	
+	public void addVisit(Visit visit) {
+		getVisits().add(visit);
+        visit.setPet(this);
+    }
 	
 }

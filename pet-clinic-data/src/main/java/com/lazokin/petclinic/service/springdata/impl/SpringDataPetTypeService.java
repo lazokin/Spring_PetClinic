@@ -15,5 +15,10 @@ public class SpringDataPetTypeService extends SpringDataService<PetType, Long> i
 	public SpringDataPetTypeService(PetTypeRepository repository) {
 		this.repository = repository;
 	}
+	
+	@Override
+	public PetType findByName(String name) {
+		return ((PetTypeRepository) this.repository).findByName(name);
+	}
 
 }

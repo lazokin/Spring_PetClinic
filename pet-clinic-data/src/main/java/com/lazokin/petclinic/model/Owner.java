@@ -51,6 +51,13 @@ public class Owner extends Person {
 		return pets;
 	}
 	
+	public void addPet(Pet pet) {
+		if (pet.isNew()) {
+			getPets().add(pet);
+		}
+		pet.setOwner(this);
+	}
+	
 	public Pet getPet(String name) {
 		return getPet(name, false);
 	}
