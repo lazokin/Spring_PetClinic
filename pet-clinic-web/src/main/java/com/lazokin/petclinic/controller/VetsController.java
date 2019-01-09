@@ -17,7 +17,7 @@ public class VetsController {
 	@RequestMapping("vets.html")
 	public String index(Model model) {
 		model.addAttribute("vets", vetService.findAll());
-		return "vets/index";
+		return "vets/list";
 	}
 
 }

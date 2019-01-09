@@ -25,9 +25,9 @@ import lombok.Setter;
 public class Vet extends Person {
 	
 	@Builder
-	public Vet(Long id, String firstName, String lastName, Set<Specialty> specialities) {
+	public Vet(Long id, String firstName, String lastName, Set<Specialty> specialties) {
 		super(id, firstName, lastName);
-		this.specialties = specialities;
+		this.specialties = specialties;
 	}
 
 	@ManyToMany(fetch = FetchType.EAGER)
