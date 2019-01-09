@@ -55,7 +55,9 @@ class VisitControllerTest {
 	@Test
 	void postNewForm() throws Exception {
 		when(petService.findById(anyLong())).thenReturn(pet);
-		mockMvc.perform(post("/owners/1/pets/1/visits/new"))
+		mockMvc.perform(post("/owners/1/pets/1/visits/new")
+				.param("date", "2018-01-01")
+				.param("desciption", "my pet is sick"))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(model().attributeExists("visit"))
 			.andExpect(view().name("redirect:/owners/1"));
