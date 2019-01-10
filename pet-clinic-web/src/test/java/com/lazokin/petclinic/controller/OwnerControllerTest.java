@@ -69,7 +69,7 @@ class OwnerControllerTest {
 		when(service.findAllByLastNameLike(anyString())).thenReturn(owners);
 		mockMvc.perform(get("/owners"))
 			.andExpect(status().isOk())
-			.andExpect(view().name("/owners/list"))
+			.andExpect(view().name("owners/list"))
 			.andExpect(model().attribute("selections", hasSize(2)));
 	}
 	

@@ -60,7 +60,7 @@ public class OwnerController {
 			return "redirect:/owners/" + owner.getId();
 		} else {
 			model.addAttribute("selections", owners);
-			return "/owners/list";
+			return "owners/list";
 		}
 	}
 	
