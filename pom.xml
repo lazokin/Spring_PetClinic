@@ -11,7 +11,7 @@
 
 	<groupId>com.lazokin</groupId>
 	<artifactId>pet-clinic</artifactId>
-	<version>1.0.0</version>
+	<version>2.0.0-SNAPSHOT</version>
 	<name>Spring_PetClinic</name>
 	<description>Pet Clinic application from the Udemy course Spring Framework 5</description>
 
@@ -80,7 +80,7 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:lazokin/Spring_PetClinic.git</developerConnection>
-		<tag>pet-clinic-1.0.0</tag>
+		<tag>HEAD</tag>
 	</scm>
 
 </project>
